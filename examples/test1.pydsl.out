@@ -1,0 +1,18 @@
+
+def sqlfunc(min_age, max_age):
+
+    import pydsl
+    __DSL_INTERP = pydsl.interpreters["sql"]("mysql://root@localhost:3306/dsltest", unix_socket="/opt/local/var/run/mysql5/mysqld.sock", passwd="")
+    __DSL_OUT_DICT = __DSL_INTERP.run('''
+    select name, age from tab1 natural join tab2
+    
+        where age > min_age and age < max_age;
+    
+    ''', ns=locals())
+    for kw, val in __DSL_OUT_DICT.items():
+        exec kw + " = val"
+    
+    print "Names:", name
+    print "Ages:", age
+
+

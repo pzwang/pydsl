@@ -1,0 +1,29 @@
+
+def cppmandel():
+    import numpy as np
+    g = np.meshgrid(np.arange(100), np.arange(100))
+    nx, ny = g.u.shape
+    dx2, dy2 = g.dx**2, g.dy**2
+    dnr_inv = 0.5/(dx2 + dy2)
+    u = g.u
+    extern cpp:
+        double tmp, err, diff;
+        err = 0.0;
+        for (int i=1; i<nx-1; ++i) {
+            for (int j=1; j<ny-1; ++j) {
+                tmp = u(i,j);
+                u(i,j) = ((u(i-1,j) + u(i+1,j))*dy2 +
+                          (u(i,j-1) + u(i,j+1))*dx2)*dnr_inv;
+                diff = u(i,j) - tmp;
+                err += diff*diff;
+            }
+        }
+        retval = sqrt(err);
+    print "Result:", retval
+
+def datafunc():
+    extern data("presidents.csv", output="numpy"):
+        term = Left_office - Took_office
+    pass
+
+

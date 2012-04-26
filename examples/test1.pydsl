@@ -1,0 +1,13 @@
+
+def sqlfunc(min_age, max_age):
+    
+    extern sql("mysql://root@localhost:3306/dsltest", unix_socket="/opt/local/var/run/mysql5/mysqld.sock", passwd=""):
+
+        select name, age from tab1 natural join tab2
+            where age > min_age and age < max_age;
+
+    print "Names:", name
+    print "Ages:", age
+
+
+

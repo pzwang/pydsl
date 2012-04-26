@@ -1,0 +1,30 @@
+
+class Foo(object):
+    def sqlfunc(self):
+        a = 123
+        b = 456
+        import pydsl
+        __DSL_INTERP = pydsl.interpreters["sql"]("mysql://root@localhost:3306", db="dsltest")
+        __DSL_OUT_DICT = __DSL_INTERP.parse('''select name, age from tab1 inner join tab2 on tab1.id=tab2.userid
+        
+            where tab1.id > a and tab1.id < b;
+        ''', ns=locals())
+        pydsl.updatelocals(__DSL_OUT_DICT)
+        
+        print "Results:", zip(name, age)
+
+    def cppmandel(self):
+        from numpy import linspace, pi, sin, cos
+        a = linspace(-2*pi, 2*pi, 200)
+        b = cos(a)
+        import pydsl
+        __DSL_INTERP = pydsl.interpreters["cpp"]("mysql://root@localhost:3306", db="dsltest")
+        __DSL_OUT_DICT = __DSL_INTERP.parse('''...
+        ''', ns=locals())
+        pydsl.updatelocals(__DSL_OUT_DICT)
+        
+        print "Result:", z
+
+    #def grapheval(self):
+    #    extern graph:
+    #        y = a*x*x + b*x + c
